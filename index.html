@@ -4,11 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="blackjack.css">
+    <link rel="stylesheet" href="card-deck/css/cardstarter.css">
+    <link rel="stylesheet" href="card-deck/css/cardstarter.min.css">
     <script defer src="blackjack.js"></script>
     <title>Blackjack</title>
 </head>
 <body>
-    
+    <div> 
+        <h1>Carlos' Blackjack</h1> 
+    </div>
+    <div class="container">
+        <div class="game-content">
+            <p>Your Balance:</p><p>Your Bet:</p>
+        </div>
+        <div class="cards">
+            <div id="player-cards">
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+            </div>
+            <div id="dealer-cards">
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+                <div class="card"></div>
+            </div>
+        </div>
+    <div class="buttons">
+        <div id="bet-buttons">
+            <button id="place-bet">Place Bet</button> 
+            <button id="withdraw-bet">Withdraw Bet</button>
+            <button id="confirm-bet">confirm Bet</button>
+        </div>
+        <div id="game-buttons">
+            <button id="deal-card">Hit</button>
+            <button id="new-game">New Game</button>
+            <button id="keep-hand">Stand</button>
+        </div>
+    </div>
 </body>
 </html>
+
