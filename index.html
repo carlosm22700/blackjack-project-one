@@ -11,21 +11,26 @@
 </head>
 <body>
     <div> 
-        <h1>Carlos' Blackjack</h1> 
+        <h1 class="header">Carlos' Blackjack</h1> 
     </div>
     <div class="container">
         <div class="game-content">
-            <p>Your Balance:</p><p>Your Bet:</p>
+            <ul id="game-content-wager">
+                <li>Your Balance:</li>
+                <li>Your Bet:</li>
+            </ul>
         </div>
         <div class="cards">
-            <div id="player-cards">
-                <div class="card"></div>
-                <div class="card"></div>
+            <div id="dealer-cards">
+                <h2>Dealer Cards:</h2>
+                <div class="card back"></div>
+                <div class="card diamonds dA"></div>
                 <div class="card"></div>
                 <div class="card"></div>
                 <div class="card"></div>
             </div>
-            <div id="dealer-cards">
+            <div id="player-cards">
+                <h2>Your Cards:</h2>
                 <div class="card"></div>
                 <div class="card"></div>
                 <div class="card"></div>
@@ -33,7 +38,6 @@
                 <div class="card"></div>
             </div>
         </div>
-    <div class="buttons">
         <div id="bet-buttons">
             <button id="place-bet">Place Bet</button> 
             <button id="withdraw-bet">Withdraw Bet</button>
