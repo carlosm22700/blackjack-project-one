@@ -1,0 +1,19 @@
+.header{
+    text-align: center;
+    color: goldenrod;
+    background-color: black;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-areas:
+      'game-content dealer-cards'
+      'game-content player-cards'
+      'bet-buttons game-buttons';
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 100%;
+  }
+  
+  #game-content-wager{
+    list-style-type: none;
+  }
