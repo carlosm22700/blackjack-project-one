@@ -42,3 +42,85 @@
 
 //might need some error handling for cases where the player enters invalid input or tries to bet more than their current balance. 
 //think about how to handle cases where the player refreshes the page or navigates away from the game in the middle of a round.
+
+
+
+//   /*----- constants -----*/
+//     //create deck to be 'shuffled' and used for game
+// const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+// const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+
+//   /*----- state variables -----*/
+//   //will hold the new deck once created
+//   let deck = []
+
+
+//   /*----- cached elements  -----*/
+
+
+//   /*----- event listeners -----*/
+
+
+//   /*----- functions -----*/
+//   //creates a function to 'shuffle' and create a new Deck
+//   function shuffleDeck() {
+//      const shuffledDeck = [];
+//     //loop through the deck array
+//      while (deck.length > 0){
+//         randomCard = Math.floor(Math.random() * deck.length)
+//      }
+//   }
+
+
+class Deck {
+    constructor() {
+        //creates possible suits in Deck class/obj
+        this.suits = ['hearts', 'diamonds', 'spades', 'clubs'];
+        //creates possible values in 
+        this.values = ['1,2,3,4,5,6,7,8,9,10,10,10,10,11'];
+        this.cards = [];
+        //when a new deck is created, we want to reset it in order to have all 52 cards
+        this.reset();
+    }
+
+    reset(){
+        this.cards = [];
+        //loop through all possible conbinations of suits and values
+            //iterate over the suits/value array of this class and assign the current element to the variable suit/value
+            for (let suit of this.suits) {
+                for (let value of this.values) {
+                    //create a new card obj with the given suit and value, add it to the deck
+                    this.cards.push({
+                        suit: suit,
+                        value: value,
+                    });
+                }
+            }
+            console.log(this.cards);
+    }
+
+    shuffle() {
+        //uses the sort method to shuffle deck
+        //generate random number between 0 - 1 and subtract .5 from it
+        //if result is negative, the first value (card being compared to next card in array) is placed before the second value in sorted array
+        //if result is positive, first value is placed after
+        //creates random order for array - 'sorting' cards
+        this.cards.sort(() => Math.random() - 0.5);
+        console.log(this.cards);
+        // if the result of this is negative
+    }
+
+    shuffledDeck(){
+
+        this.reset();
+        this.shuffle();
+        console.log(this.cards);
+    }
+}
+
+//create a new deck and shuffle it
+
+const newDeck = new Deck();
+newDeck.shuffledDeck();
+
+console.log(newDeck);
