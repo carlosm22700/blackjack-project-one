@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="card-deck/css/cardstarter.css">
-    <link rel="stylesheet" href="card-deck/css/cardstarter.min.css">
     <link rel="stylesheet" href="blackjack.css">
     <script defer src="blackjack.js"></script>
     <title>Blackjack</title>
@@ -14,8 +13,9 @@
     <div> 
         <h1 class="header">Carlos' Blackjack</h1> 
     </div>
-    <div class="container">
+    <div class="container-grid">
         <div class="game-content">
+            <h2 id='game-result'>Game Results Here!</h2>
             <ul id="game-content-wager">
                 <li>Your Balance:</li>
                 <li>Your Bet:</li>
@@ -24,6 +24,7 @@
         <div class="cards">
             <div id="dealer-cards">
                 <h2>Dealer Cards:</h2>
+                <p id="dealer-total">total: </p>
                 <div class="card back"></div>
                 <div class="card diamonds dA"></div>
                 <div class="card"></div>
@@ -32,6 +33,7 @@
             </div>
             <div id="player-cards">
                 <h2>Your Cards:</h2>
+                <p id="player-total">total: </p>
                 <div class="card"></div>
                 <div class="card"></div>
                 <div class="card"></div>
@@ -39,12 +41,12 @@
                 <div class="card"></div>
             </div>
         </div>
-        <div id="bet-buttons">
+        <div class="buttons" id="bet-buttons">
             <button id="place-bet">Place Bet</button> 
             <button id="withdraw-bet">Withdraw Bet</button>
             <button id="confirm-bet">confirm Bet</button>
         </div>
-        <div id="game-buttons">
+        <div class="buttons" id="game-buttons">
             <button id="deal-card">Hit</button>
             <button id="new-game">New Game</button>
             <button id="keep-hand">Stand</button>

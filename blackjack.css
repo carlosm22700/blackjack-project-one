@@ -1,10 +1,14 @@
+body {
+    padding-left: 10px;
+    text-align: center;
+}
 .header{
     text-align: center;
     color: goldenrod;
     background-color: black;
   }
   
-  .container {
+.container-grid {
     display: grid;
     grid-template-areas:
       'game-content dealer-cards'
@@ -12,8 +16,17 @@
       'bet-buttons game-buttons';
     grid-template-columns: repeat(2, 1fr);
     min-height: 100%;
-  }
+    padding-top: 50px;
+}
   
-  #game-content-wager{
+#game-content-wager{
     list-style-type: none;
-  }
+    margin-top: 100px;
+    font-size: xx-large;
+}
+
+#game-result {
+    background-color: black;
+    margin-left: 50px;
+    color:goldenrod;
+}
