@@ -72,15 +72,19 @@ const withdrawBetBttn = document.getElementById('withdraw-bet');
 const confirmBetBttn = document.getElementById('confirm-bet');
 const yourBalanceDisplay = document.getElementById('player-balance');
 const cardModel = document.createElement('div');
+const playerBet = document.getElementById('player-bet');
 cardModel.classList.add('card');
+const newGameBttn = document.getElementById('new-game');
 
 //   /*----- event listeners -----*/
 hitButton.addEventListener('click', () => {
     hit(playerHand);
-    console.log('hit button pressed')
+    //console.log('hit button pressed')
 })
 standButton.addEventListener('click', () =>{
-    console.log('stand button pressed')
+    stand(playerHand)
+    //console.log('hit button pressed')
+
 })
 placeBetBttn.addEventListener('click', () => {
     console.log('Bet Placed')
@@ -101,13 +105,18 @@ confirmBetBttn.addEventListener('click', () => {
     console.log('You Have confirmed your bet');
 })
 
+newGameBttn.addEventListener('click', () => {
+    if (betConfirmed) {
+        newGame()
+    }
+});
+
 
 //   /*----- functions -----*//
 
 window.onload = function() {
     createDeck();
     shuffleDeck();
-    dealCards();
     updateDOM();
     
 }
@@ -133,21 +142,19 @@ function shuffleDeck () {
     // console.log(deck);
 }
 
-// function pullRandomCard () {
-//     const pulledCard = deck[0];
-// }
-
 function dealCards(){
     // Deal cards to player and dealer
+    hiddenCard = deck.pop();
+    dealerTotal += getCardValue(hiddenCard, dealerTotal);
     dealerHand = [hiddenCard, deck.pop()];
-    console.log(dealerHand);
+    //console.log(dealerHand);
     playerHand = [deck.pop(), deck.pop()];
-    console.log(playerHand);
+    //console.log(playerHand);
 
     dealerTotal = getCardValue(dealerHand[1], dealerTotal);
-    console.log(dealerTotal)
+    //console.log(dealerTotal)
     playerTotal = getCardValue(playerHand[0], playerTotal) + getCardValue(playerHand[1], playerTotal);
-    console.log(playerTotal)
+    //console.log(playerTotal)
     // console.log(hiddenCard);
     // console.log(dealerTotal)
     updateDOM();
@@ -155,22 +162,47 @@ function dealCards(){
 
 function updateDOM () {
     //update the DOM with current game state
-    if (betBalance <= 0){
-        gameResult.textContent = 'Game Over! You are out of money';
-        return;
-    }
-
-    hiddenCard = deck.pop();
-    dealerTotal += getCardValue(hiddenCard, dealerTotal);
+    //update the player's balance and bet amount
+    document.getElementById('player-cards').innerHTML = '';
+    document.getElementById('dealer-cards').innerHTML = '';
 
     yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
-    // flippedCard = deck.pop();
-    // dealerTotal += getCardValue(flippedCard, dealerTotal);
+    playerBet.textContent = `Your Bet: ${betAmount}`;
 
+    dealerCards.innerHTML = '<h2>Dealer Cards:</h2>';
+    playerCards.innerHTML = '<h2>Your Cards:</h2>';
+    //display dealer's cards and total
+    dealerHand.forEach((card, index) => {
+        const cardElement = createCardElement(card);
+        if (index === 0 && canHitOrStand) {
+            cardElement.classList.add('card.back');
+        } else {
+            cardElement.className = `card.${card.suit}.${card.value}`;
+        }
+        dealerCards.appendChild(cardElement)
+    });
+    dealerCards.insertAdjacentHTML('beforeend', `<p id="dealer-total"> Total: ${dealerTotal} </p>`)
 
-    // console.log(flippedCard)
-    // console.log(dealerTotal)
-    
+    //Display player's cards and total
+    playerHand.forEach((card) => {
+        const cardElement = createCardElement(card);
+        cardElement.className = `card.${card.suit}.${card.value}`;
+        playerCards.appendChild(cardElement);
+    });
+    playerCards.insertAdjacentHTML('beforeend', `<p id= "player-total"> Total: ${playerTotal} </p>`);
+
+    //Check if the game has ended due to a player running out fo money
+
+    if (betBalance <= 0){
+        gameResult.textContent = 'Game Over! You are out of money';
+    } 
+}
+
+function createCardElement(card) {
+    const cardElement = cardModel.cloneNode(true);
+    const [value, suit] = card.split(' ');
+    cardElement.classList.add(suit.toLowerCase(), value.toLowerCase() + suit.charAt(0).toLowerCase())
+    return cardElement
 }
 
 function getCardValue (card, sum){
@@ -199,44 +231,109 @@ function calculateScore(hand) {
     hand.forEach(card => {
         const value = getCardValue(card, total);
         total += value
-    })
+        
+        if (value === 11) {
+            aces++;
+        }
+    });
+
+    while (total > 21 && aces > 0) {
+        total -= 10;
+        aces--;
+    }
+    return total;
 }
 
 function hit(hand) {
+    if (!canHitOrStand) return;
     //Add a card to the given hand
+
+    const newCard = deck.pop();
+    hand.push(newCard);
+    if (hand === playerHand) {
+        playerTotal = calculateScore(playerHand);
+        if (playerTotal > 21) {
+            canHitOrStand = false;
+            determineWinner();
+        }
+    }
+    //updae DOM to display new card and updated score
+    updateDOM()
 }
 
-function stand(hand) {
+function stand() {
     //Reveal the hidden card and update DOM
+    if (!canHitOrStand) return;
+
+    canHitOrStand = false;
     dealerTotal += getCardValue(hiddenCard, dealerTotal);
-    updateDOM();
 
     //dealer draws cards until their total is 17 or higher
     while (dealerTotal < 17) {
         const newCard = deck.pop();
         dealerHand.push(newCard);
-        dealerTotal += getCardValue(newCard, dealerTotal);
+        dealerTotal = calculateScore(dealerHand);
     }
-
     //compare dealer's and player totals and determine winner
     determineWinner();
+    updateDOM();
 }
 
 function determineWinner(){
     //comparison logic??
+    let result;
+    if (playerTotal > 21) {
+        result = "Dealer";
+    } else if (dealerTotal > 21) {
+        result = "player";
+    } else if (playerTotal > dealerTotal) {
+        result = "Player";
+    }else if (playerTotal < dealerTotal) {
+        result = "Dealer";
+    } else {
+        result = "Tie"
+    }
+
+    //update bet balance based on the result
+    if (result === "Player") {
+        betBalance += betAmount;
+    } else if (result === "Dealer"){
+        betBalance -= betAmount;
+    }
+
+    //display result message and update bet balance on the DOM
+    gameResult.textContent = `Winner: ${result}`;
+    yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`
+
+    //reset the game state for a new round
+    resetGameState();
 }
 
 function newGame(){
+    if (!betConfirmed) return;
 
+    createDeck();
+    shuffleDeck();
+    dealCards();
+    updateDOM();
+
+    canHitOrStand = true;
 }
-
+function resetGameState (){
+    betConfirmed = false;
+    canHitOrStand = false;
+    dealerTotal = 0;
+    playerTotal = 0;
+    playerHand = [];
+    dealerHand = [];
+}
 function placeBet () {
     if (betConfirmed === true){
-        console.log('Bet has been confirmed. Cannot place more.')
+        //console.log('Bet has been confirmed. Cannot place more.')
         return;
     }
     if (betBalance <= 0) {
-        console.log('No more money!')
+       // console.log('No more money!')
         return;
     }
      betBalance -= 10;
@@ -244,11 +341,11 @@ function placeBet () {
 }
 function removeBet () {
     if (betConfirmed !== false){
-        console.log('Bet has been confirmed. Cannot withdraw more.');
+        //console.log('Bet has been confirmed. Cannot withdraw more.');
         return
     }
     if (betBalance >= 100) {
-        console.log('bet balance cannot exceed 100');
+        //console.log('bet balance cannot exceed 100');
         return
     }
      betBalance += 10;
