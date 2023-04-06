@@ -50,9 +50,16 @@ const suits = ['hearts', 'diamonds', 'spades', 'clubs'];
 const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
 //   /*----- state variables -----*/
-let dealerTotat = 0;
+let dealerTotal = 0;
 let playerTotal = 0;
-let deck;
+let betAmount = 0;
+let betBalance = 100;
+let deck = [];
+let playerHand = [];
+let dealerHand = [];
+let betConfirmed = false;
+let canHitOrStand = false;
+let hiddenCard;
 
 //   /*----- cached elements  -----*/
 const hitButton = document.getElementById('hit-button');
@@ -60,13 +67,38 @@ const standButton = document.getElementById('stand-button');
 const dealerCards = document.getElementById('dealer-cards');
 const playerCards = document.getElementById('player-cards');
 const gameResult = document.getElementById('game-result');
+const placeBetBttn = document.getElementById('place-bet');
+const withdrawBetBttn = document.getElementById('withdraw-bet');
+const confirmBetBttn = document.getElementById('confirm-bet');
+const yourBalanceDisplay = document.getElementById('player-balance');
+const cardModel = document.createElement('div');
+cardModel.classList.add('card');
 
 //   /*----- event listeners -----*/
 hitButton.addEventListener('click', () => {
+    hit(playerHand);
     console.log('hit button pressed')
 })
 standButton.addEventListener('click', () =>{
     console.log('stand button pressed')
+})
+placeBetBttn.addEventListener('click', () => {
+    console.log('Bet Placed')
+    placeBet();
+    console.log('your balance is:' + betBalance)
+    updateDOM();
+
+})
+withdrawBetBttn.addEventListener('click', () => {
+    console.log('Bet Withdrawn');
+    removeBet();
+    console.log('Your balance is:' + betBalance);
+    updateDOM();
+})
+
+confirmBetBttn.addEventListener('click', () => {
+    betConfirmed = true;
+    console.log('You Have confirmed your bet');
 })
 
 
@@ -75,6 +107,8 @@ standButton.addEventListener('click', () =>{
 window.onload = function() {
     createDeck();
     shuffleDeck();
+    dealCards();
+    updateDOM();
     
 }
 
@@ -82,7 +116,7 @@ function createDeck () {
     deck = [];
     values.forEach((value) => {
         suits.forEach((suit)=>{
-            const card = value + suit;
+            const card = value + ' ' + suit;
             deck.push(card)
         })
     })
@@ -96,14 +130,146 @@ function shuffleDeck () {
         deck[i] = deck[randomIndex];
         deck[randomIndex] = temp;
     }
-    console.log(deck);
+    // console.log(deck);
+}
+
+// function pullRandomCard () {
+//     const pulledCard = deck[0];
+// }
+
+function dealCards(){
+    // Deal cards to player and dealer
+    dealerHand = [hiddenCard, deck.pop()];
+    console.log(dealerHand);
+    playerHand = [deck.pop(), deck.pop()];
+    console.log(playerHand);
+
+    dealerTotal = getCardValue(dealerHand[1], dealerTotal);
+    console.log(dealerTotal)
+    playerTotal = getCardValue(playerHand[0], playerTotal) + getCardValue(playerHand[1], playerTotal);
+    console.log(playerTotal)
+    // console.log(hiddenCard);
+    // console.log(dealerTotal)
+    updateDOM();
+}   
+
+function updateDOM () {
+    //update the DOM with current game state
+    if (betBalance <= 0){
+        gameResult.textContent = 'Game Over! You are out of money';
+        return;
+    }
+
+    hiddenCard = deck.pop();
+    dealerTotal += getCardValue(hiddenCard, dealerTotal);
+
+    yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
+    // flippedCard = deck.pop();
+    // dealerTotal += getCardValue(flippedCard, dealerTotal);
+
+
+    // console.log(flippedCard)
+    // console.log(dealerTotal)
+    
+}
+
+function getCardValue (card, sum){
+    //take the current card (ex: 9 hearts), split at the space and take the value which at [0] index
+    let cardVal = card.split(' ');
+    let value = cardVal[0];
+
+    if (value === 'A'){
+        if (sum + 11 > 21) {
+            return 1;
+        } else {
+            return 11;
+        }
+    } else if (value ==='K' || value === 'Q' || value === 'J') {
+        return 10
+    } else {
+        return parseInt(value);
+    }
+}
+
+function calculateScore(hand) {
+    //calculate the score for a given hand
+    let total = 0;
+    let aces = 0;
+
+    hand.forEach(card => {
+        const value = getCardValue(card, total);
+        total += value
+    })
+}
+
+function hit(hand) {
+    //Add a card to the given hand
+}
+
+function stand(hand) {
+    //Reveal the hidden card and update DOM
+    dealerTotal += getCardValue(hiddenCard, dealerTotal);
+    updateDOM();
+
+    //dealer draws cards until their total is 17 or higher
+    while (dealerTotal < 17) {
+        const newCard = deck.pop();
+        dealerHand.push(newCard);
+        dealerTotal += getCardValue(newCard, dealerTotal);
+    }
+
+    //compare dealer's and player totals and determine winner
+    determineWinner();
+}
+
+function determineWinner(){
+    //comparison logic??
+}
+
+function newGame(){
+
+}
+
+function placeBet () {
+    if (betConfirmed === true){
+        console.log('Bet has been confirmed. Cannot place more.')
+        return;
+    }
+    if (betBalance <= 0) {
+        console.log('No more money!')
+        return;
+    }
+     betBalance -= 10;
+     //yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
+}
+function removeBet () {
+    if (betConfirmed !== false){
+        console.log('Bet has been confirmed. Cannot withdraw more.');
+        return
+    }
+    if (betBalance >= 100) {
+        console.log('bet balance cannot exceed 100');
+        return
+    }
+     betBalance += 10;
+     //yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
 }
 
 
+//goals: 
+//get bet number to show up
+//have that number change as I increase decrease
+//come up with dealing function/method
+//get the cards to physically deal and show up on the dom
+//add functionalities to hit and stand buttons
+//figure out how to incorporate new game and what that does... is it even needed?
+//have total of cards show up on screen.
+//implement betting system functionalities and have that be losing/winning condition
 
 
 
-
+//might have to change gamesetup to render or something.
+//create a different function that handles to check if bet has been confirmed first. if so, player can hit and deal card before handling the hit button.
 
 
 
