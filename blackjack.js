@@ -47,15 +47,15 @@ placeBetBttn.addEventListener('click', () => {
 
 })
 withdrawBetBttn.addEventListener('click', () => {
-    console.log('Bet Withdrawn');
+    
     removeBet();
-    console.log('Your balance is:' + betBalance);
+    
     updateDOM();
 })
 
 confirmBetBttn.addEventListener('click', () => {
     betConfirmed = true;
-    console.log('You Have confirmed your bet');
+
 })
 
 newGameBttn.addEventListener('click', () => {
@@ -101,20 +101,15 @@ function shuffleDeck () {
 }
 
 function dealCards(){
-    // Deal cards to player and dealer
+
     hiddenCard = deck.pop();
     dealerTotal += getCardValue(hiddenCard, dealerTotal);
     dealerHand = [deck.pop(), deck.pop()];
-    //console.log(dealerHand);
     playerHand = [deck.pop(), deck.pop()];
-    //console.log(playerHand);
 
     dealerTotal = getCardValue(dealerHand[0], dealerTotal) + getCardValue(dealerHand[1], dealerTotal);
-    //console.log(dealerTotal)
     playerTotal = getCardValue(playerHand[0], playerTotal) + getCardValue(playerHand[1], playerTotal);
-    //console.log(playerTotal)
-    // console.log(hiddenCard);
-    // console.log(dealerTotal)
+
     updateDOM();
 }   
 
