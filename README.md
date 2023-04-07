@@ -1,6 +1,6 @@
 # Blackjack Game
 
-A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game allows users to increase/decrease their bet and play multiple rounds of blackjack against a dealer.
+A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game allows users to test their luck by increase/decrease their bet and playing multiple rounds of blackjack against a dealer.
 
 ## Technologies Used
 
@@ -12,7 +12,7 @@ A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game a
 
 1. [Click here to play the game.](https://carlosm22700.github.io/blackjack-project-one/)
 
-2. To get started, place bet abd confirm to start
+2. To get started, place bet and confirm to start
 
 3. adjust your bet using the 'place bet' and 'withdraw bet' buttons.
 
