@@ -1,6 +1,9 @@
 body {
     padding-left: 10px;
     text-align: center;
+    background-image: url('https://st.depositphotos.com/1017573/4802/i/600/depositphotos_48029605-stock-photo-poker-table-felt-background.jpg');
+    background-size: cover;
+    background-position: center;
 }
 .header{
     text-align: center;
@@ -17,6 +20,20 @@ body {
     grid-template-columns: repeat(2, 1fr);
     min-height: 100%;
     padding-top: 50px;
+}
+.text {
+    color: goldenrod;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.buttons {
+    height: 50px;
+    width: fit-content;
+    padding: 10px 30px 10px;
+    margin: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 0 3px 1px turquoise;
+    border-radius: 10px;
 }
   
 #game-content-wager{

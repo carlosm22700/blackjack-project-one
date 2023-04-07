@@ -268,6 +268,9 @@ function hit(hand) {
         playerTotal = calculateScore(playerHand);
         if (playerTotal > 21) {
             canHitOrStand = false;
+            setTimeout(() => {
+                determineWinner();
+            }, 1000);
             determineWinner();
         }
     }
@@ -288,8 +291,11 @@ function stand() {
         dealerHand.push(newCard);
         dealerTotal = calculateScore(dealerHand);
     }
+    setTimeout(() => {
+        determineWinner();
+    }, 1000)
     //compare dealer's and player totals and determine winner
-    determineWinner();
+    // determineWinner();
     updateDOM();
 }
 
@@ -363,6 +369,9 @@ function removeBet () {
     if (betConfirmed !== false){
         //console.log('Bet has been confirmed. Cannot withdraw more.');
         return
+    }
+    if (betAmount < 10) {
+        return;
     }
     if (betBalance >= 100) {
         //console.log('bet balance cannot exceed 100');
