@@ -47,7 +47,7 @@
 
 //   /*----- constants -----*/
 const suits = ['hearts', 'diamonds', 'spades', 'clubs'];
-const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const values = ['A', 'r02', 'r03', 'r04', 'r05', 'r06', 'r07', 'r08', 'r09', 'r10', 'J', 'Q', 'K'];
 
 //   /*----- state variables -----*/
 let dealerTotal = 0;
@@ -123,13 +123,18 @@ window.onload = function() {
 
 function createDeck () {
     deck = [];
-    values.forEach((value) => {
-        suits.forEach((suit)=>{
-            const card = value + ' ' + suit;
+    values.forEach((cardValue) => {
+        suits.forEach((cardSuit)=>{
+            const card = {
+                value: cardValue,
+                suit: cardSuit
+            };
             deck.push(card)
         })
     })
+    // console.log(deck);
     return deck;
+
 }
 
 function shuffleDeck () {
@@ -146,12 +151,12 @@ function dealCards(){
     // Deal cards to player and dealer
     hiddenCard = deck.pop();
     dealerTotal += getCardValue(hiddenCard, dealerTotal);
-    dealerHand = [hiddenCard, deck.pop()];
+    dealerHand = [deck.pop(), deck.pop()];
     //console.log(dealerHand);
     playerHand = [deck.pop(), deck.pop()];
     //console.log(playerHand);
 
-    dealerTotal = getCardValue(dealerHand[1], dealerTotal);
+    dealerTotal = getCardValue(dealerHand[0], dealerTotal) + getCardValue(dealerHand[1], dealerTotal);
     //console.log(dealerTotal)
     playerTotal = getCardValue(playerHand[0], playerTotal) + getCardValue(playerHand[1], playerTotal);
     //console.log(playerTotal)
@@ -172,12 +177,13 @@ function updateDOM () {
     dealerCards.innerHTML = '<h2>Dealer Cards:</h2>';
     playerCards.innerHTML = '<h2>Your Cards:</h2>';
     //display dealer's cards and total
+    console.log(dealerHand);
     dealerHand.forEach((card, index) => {
         const cardElement = createCardElement(card);
         if (index === 0 && canHitOrStand) {
-            cardElement.classList.add('card.back');
+            cardElement.classList.add('card', card.value, card.suit);
         } else {
-            cardElement.className = `card.${card.suit}.${card.value}`;
+            cardElement.classList.add('card', card.value, card.suit);
         }
         dealerCards.appendChild(cardElement)
     });
@@ -186,7 +192,7 @@ function updateDOM () {
     //Display player's cards and total
     playerHand.forEach((card) => {
         const cardElement = createCardElement(card);
-        cardElement.className = `card.${card.suit}.${card.value}`;
+        cardElement.classList.add('card', card.value, card.suit);
         playerCards.appendChild(cardElement);
     });
     playerCards.insertAdjacentHTML('beforeend', `<p id= "player-total"> Total: ${playerTotal} </p>`);
@@ -200,15 +206,20 @@ function updateDOM () {
 
 function createCardElement(card) {
     const cardElement = cardModel.cloneNode(true);
-    const [value, suit] = card.split(' ');
-    cardElement.classList.add(suit.toLowerCase(), value.toLowerCase() + suit.charAt(0).toLowerCase())
+    const value = card.value;
+    const suit = card.suit;
+    cardElement.classList.add(suit.toLowerCase(), suit.charAt(0).toLowerCase() + value.toLowerCase())
+    console.log(cardElement);
     return cardElement
 }
 
 function getCardValue (card, sum){
     //take the current card (ex: 9 hearts), split at the space and take the value which at [0] index
-    let cardVal = card.split(' ');
-    let value = cardVal[0];
+    let value = card.value;
+
+    if (value[0] === 'r') {
+        value = value.substring(1);
+    }
 
     if (value === 'A'){
         if (sum + 11 > 21) {
@@ -225,6 +236,9 @@ function getCardValue (card, sum){
 
 function calculateScore(hand) {
     //calculate the score for a given hand
+    //if card value 02 <= x <= 09 {
+    //return value = 
+    //}
     let total = 0;
     let aces = 0;
 
@@ -283,9 +297,9 @@ function determineWinner(){
     //comparison logic??
     let result;
     if (playerTotal > 21) {
-        result = "Dealer";
+        result = "Dealer!";
     } else if (dealerTotal > 21) {
-        result = "player";
+        result = "Player";
     } else if (playerTotal > dealerTotal) {
         result = "Player";
     }else if (playerTotal < dealerTotal) {
@@ -305,7 +319,11 @@ function determineWinner(){
     gameResult.textContent = `Winner: ${result}`;
     yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`
 
+    // resets bet amount after determining winner
+    betAmount = 0; 
+
     //reset the game state for a new round
+    updateDOM();
     resetGameState();
 }
 
@@ -337,6 +355,8 @@ function placeBet () {
         return;
     }
      betBalance -= 10;
+     betAmount += 10;
+     updateDOM();
      //yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
 }
 function removeBet () {
@@ -349,6 +369,8 @@ function removeBet () {
         return
     }
      betBalance += 10;
+     betAmount -= 10;
+     updateDOM();
      //yourBalanceDisplay.textContent = `Your Balance: ${betBalance}`;
 }
 
