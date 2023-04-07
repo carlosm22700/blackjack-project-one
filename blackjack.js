@@ -47,7 +47,7 @@ placeBetBttn.addEventListener('click', () => {
 
 })
 withdrawBetBttn.addEventListener('click', () => {
-    
+
     removeBet();
     
     updateDOM();

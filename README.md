@@ -10,17 +10,23 @@ A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game a
 
 ## Getting Started
 
-1. [Click here to play the game.](your-deployed-game-url-here)
+1. [Click here to play the game.](https://carlosm22700.github.io/blackjack-project-one/)
 
-2. To get started, follow the on-screen prompts to adjust your bet using the 'place bet' and 'withdraw bet' buttons.
+2. To get started, place bet abd confirm to start
 
-3. Click 'Confirm Bet' to lock in your bet for the round.
+3. adjust your bet using the 'place bet' and 'withdraw bet' buttons.
 
-4. Click 'New Game' to begin a new round of blackjack.
+4. Click 'Confirm Bet' to lock in your bet for the round.
 
-5. During the game, you can choose to 'Hit' or 'Stand'. The goal is to have a higher hand than the dealer without going over 21.
+5. Click 'New Game' to begin a new round of blackjack (New Game, will not start unless bet has been placed).
 
-6. After the round ends, you can adjust your bet again or click 'New Game' to play another round with the same bet amount.
+6. During the game, you can choose to 'Hit' or 'Stand'. The goal is to have a higher hand than the dealer without going over 21.
+
+7. After hands are resolved and totaled, winner will be displayed in message bar.
+
+8. After the round ends, you can adjust your bet again or click 'New Game' to play another round with the same bet amount.
+
+9. Refreshing the page will reset Bet Balance to start a fresh game.
 
 ## Next Steps
 
