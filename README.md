@@ -12,6 +12,8 @@ A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game a
 
 1. [Click here to play the game.](https://carlosm22700.github.io/blackjack-project-one/)
 
+![Starting State](/screenshots/starting_state.png?raw=true "Starting State")
+
 2. To get started, place bet. This can be adjusted with the 'Place Bet' or 'Withdraw Bet' button.
 
 3. Click 'Confirm Bet' to lock in your bet for the round.
