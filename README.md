@@ -26,7 +26,7 @@ A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game a
 
 6. After hands are resolved and totaled, winner will be displayed in message bar.
 
-![Starting State](/screenshots/Hand_resolved.png.png?raw=true "Starting State")
+![resolved hand](/screenshots/Hand_resolved.png?raw=true "Game Result")
 
 7. After the round ends, adjust your bet again and click 'New Game' to play another round. Your Bet Balance is adjusted each round.
 
