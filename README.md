@@ -20,13 +20,21 @@ A simple and fun blackjack game built with HTML, CSS, and JavaScript. The game a
 
 4. Click 'New Game' to begin a new round of blackjack (New Game, will not start unless bet has been placed).
 
+![Starting State](/screenshots/betplaced_firsthand.png?raw=true "Starting State")
+
 5. During the game, you can choose to 'Hit' or 'Stand'. The goal is to have a higher hand than the dealer without going over 21.
 
 6. After hands are resolved and totaled, winner will be displayed in message bar.
 
+![Starting State](/screenshots/Hand_resolved.png.png?raw=true "Starting State")
+
 7. After the round ends, adjust your bet again and click 'New Game' to play another round. Your Bet Balance is adjusted each round.
 
+![Starting State](/screenshots/second_hand.png.png?raw=true "Starting State")
+
 8. If your balance reaches 0, you lose. Refresh the page to try your luck again.
+
+![Starting State](/screenshots/Gameover_nomoney.png.png?raw=true "Starting State")
 
 9. Refreshing the page will reset Bet Balance to start a fresh game.
 
